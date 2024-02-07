@@ -22,3 +22,18 @@ body {
     margin: 10px auto;
     text-align: center;
 }
+
+.marker-img {
+    transform: rotate(+45deg);
+    position: absolute;
+    left: 3px;
+    top: 3px;
+}
+
+.label {
+    position: absolute;
+    font-size: 15px;
+    top: -15px;
+    white-space: nowrap;
+    font-family: "Gill Sans", sans-serif;
+}

@@ -8,6 +8,7 @@ import Points from "./Points";
 import Select from "./Select";
 import ControlExtent from "./ControlExtent";
 import Basemap from "./Basemap";
+import Animals from "./Animals";
 
 function App() {
     return (
@@ -22,23 +23,23 @@ function App() {
                     justifyContent: "center",
                 }}
             >
-                <SimpleMap />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Basemap />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Click />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Hover />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Extent />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Tiles />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Points />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <Select />
-                <hr style={{ width: "calc(100vw - 30%)" }} />
-                <ControlExtent />
+                {[
+                    <SimpleMap />,
+                    <Basemap />,
+                    <Click />,
+                    <Hover />,
+                    <Extent />,
+                    <Tiles />,
+                    <Points />,
+                    <Select />,
+                    <ControlExtent />,
+                    <Animals />,
+                ].map((e) => (
+                    <>
+                        {e}
+                        <hr style={{ width: "calc(100vw - 30%)" }} />
+                    </>
+                ))}
             </div>
         </>
     );

@@ -6,19 +6,16 @@ const points = [
         id: "#1",
         lng: -0.0761,
         lat: 51.50807,
-        title: "hello world",
     },
     {
         id: "#2",
         lng: -0.10334,
         lat: 51.51515,
-        title: "goodbye world",
     },
     {
         id: "#3",
         lng: -0.08755,
         lat: 51.5018,
-        title: "whatever",
     },
 ];
 

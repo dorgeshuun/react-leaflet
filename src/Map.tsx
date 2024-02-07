@@ -20,7 +20,14 @@ type Props = {
     initialView?: { lng: number; lat: number; zoom: number };
     basemapProviderUrl?: string;
     style?: CSSProperties;
-    points?: { id: string; lng: number; lat: number; color?: string }[];
+    points?: {
+        id: string;
+        lng: number;
+        lat: number;
+        color?: string;
+        icon?: string;
+        title?: string;
+    }[];
     extent?: Extent;
     onViewChange?: (extent: Extent, tiles: Tile[]) => void;
     onMouseMove?: (lng: number | null, lat: number | null) => void;
@@ -40,13 +47,25 @@ function pointsToString(pts?: { id: string; lng: number; lat: number }[]) {
         .join("-");
 }
 
-function makeHtmlMarker(color: string, label: string) {
+function makeHtmlMarker(
+    color: string,
+    label: string,
+    img?: string,
+    title?: string
+) {
     return renderToStaticMarkup(
-        <div
-            aria-label={label}
-            className="marker-pin"
-            style={{ background: color, border: "1px solid black" }}
-        ></div>
+        <div>
+            <div className="label" style={{ color: color }}>
+                {title || ""}
+            </div>
+            <div
+                aria-label={label}
+                className="marker-pin"
+                style={{ background: color, border: "1px solid black" }}
+            >
+                <img src={img} className="marker-img" />
+            </div>
+        </div>
     );
 }
 
@@ -138,12 +157,7 @@ function _Map({
             throw new Error();
         }
 
-        const newPoints = new Map(
-            points.map((p) => [
-                p.id,
-                { lng: p.lng, lat: p.lat, color: p.color },
-            ])
-        );
+        const newPoints = new Map(points.map((p) => [p.id, p]));
 
         const { toDel, toAdd } = diff(oldPoints.keys(), newPoints.keys());
 
@@ -164,7 +178,9 @@ function _Map({
                     className: "custom-div-icon",
                     html: makeHtmlMarker(
                         point.color || "dodgerblue",
-                        "marker-" + p
+                        "marker-" + point.id,
+                        point.icon || "",
+                        point.title
                     ),
                     iconSize: [30, 42],
                     iconAnchor: [15, 42],
