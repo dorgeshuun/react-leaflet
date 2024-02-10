@@ -101,18 +101,20 @@ function _Map({
     const pointRef = React.useRef<Map<string, Leaflet.Layer>>(new Map());
 
     React.useEffect(() => {
-        const basemap = Leaflet.tileLayer(basemapProviderUrl);
-        const lyr = Leaflet.layerGroup();
-        const map = Leaflet.map(mapId, {
-            layers: [basemap, lyr],
-            center: { lng: initialView.lng, lat: initialView.lat },
-            zoom: initialView.zoom,
-            zoomControl: false,
-        });
+        try {
+            const basemap = Leaflet.tileLayer(basemapProviderUrl);
+            const lyr = Leaflet.layerGroup();
+            const map = Leaflet.map(mapId, {
+                layers: [basemap, lyr],
+                center: { lng: initialView.lng, lat: initialView.lat },
+                zoom: initialView.zoom,
+                zoomControl: false,
+            });
 
-        mapRef.current = map;
-        basemapRef.current = basemap;
-        lyrRef.current = lyr;
+            mapRef.current = map;
+            basemapRef.current = basemap;
+            lyrRef.current = lyr;
+        } catch {}
     }, []);
 
     React.useEffect(() => {
@@ -201,12 +203,12 @@ function _Map({
             throw new Error();
         }
 
-        map.on("click", (e) => {
+        const _onClick = (e: Leaflet.LeafletMouseEvent) => {
             onClick(e.latlng.lng, e.latlng.lat);
             onClickaway();
-        });
+        };
 
-        map.on("moveend", () => {
+        const _onMoveend = () => {
             const bounds = map.getBounds();
             const zoom = map.getZoom();
 
@@ -219,17 +221,29 @@ function _Map({
             const tiles = Tile.fromExtent(west, south, east, north, zoom);
 
             onViewChange(extent, tiles);
-        });
+        };
 
-        map.on("mousemove", (e) => {
+        const _onMousemove = (e: Leaflet.LeafletMouseEvent) => {
             onMouseMove(e.latlng.lng, e.latlng.lat);
-        });
+        };
 
-        map.on("mouseout", () => {
+        const _onMouseout = () => {
             onMouseMove(null, null);
-        });
+        };
+
+        map.on("click", _onClick);
+        map.on("moveend", _onMoveend);
+        map.on("mousemove", _onMousemove);
+        map.on("mouseout", _onMouseout);
 
         map.fire("moveend");
+
+        return () => {
+            map.off("click", _onClick);
+            map.off("moveend", _onMoveend);
+            map.off("mousemove", _onMousemove);
+            map.off("mouseout", _onMouseout);
+        };
     }, [onClick, onMouseMove, onViewChange, onClickaway]);
 
     return (

@@ -37,29 +37,26 @@ function App() {
                     >
                         yarn add https://github.com/dorgeshuun/react-leaflet
                     </div>
-                    <p style={{ maxWidth: 500 }}>
-                        As of yet, this library does not support{" "}
-                        <span style={{ fontStyle: "italic" }}>Strict</span>{" "}
-                        mode.
-                    </p>
                 </span>
                 <hr style={{ width: "calc(100vw - 30%)" }} />
-                {[
-                    <SimpleMap />,
-                    <Basemap />,
-                    <Click />,
-                    <Hover />,
-                    <Extent />,
-                    <Tiles />,
-                    <Points />,
-                    <Select />,
-                    <ControlExtent />,
-                ].map((e) => (
-                    <>
-                        {e}
-                        <hr style={{ width: "calc(100vw - 30%)" }} />
-                    </>
-                ))}
+                <SimpleMap />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Basemap />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Click />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Hover />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Extent />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Tiles />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Points />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <Select />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
+                <ControlExtent />
+                <hr style={{ width: "calc(100vw - 30%)" }} />
                 <Animals />
             </div>
         </>
