@@ -101,20 +101,22 @@ function _Map({
     const pointRef = React.useRef<Map<string, Leaflet.Layer>>(new Map());
 
     React.useEffect(() => {
-        try {
-            const basemap = Leaflet.tileLayer(basemapProviderUrl);
-            const lyr = Leaflet.layerGroup();
-            const map = Leaflet.map(mapId, {
-                layers: [basemap, lyr],
-                center: { lng: initialView.lng, lat: initialView.lat },
-                zoom: initialView.zoom,
-                zoomControl: false,
-            });
+        const basemap = Leaflet.tileLayer(basemapProviderUrl);
+        const lyr = Leaflet.layerGroup();
+        const map = Leaflet.map(mapId, {
+            layers: [basemap, lyr],
+            center: { lng: initialView.lng, lat: initialView.lat },
+            zoom: initialView.zoom,
+            zoomControl: false,
+        });
 
-            mapRef.current = map;
-            basemapRef.current = basemap;
-            lyrRef.current = lyr;
-        } catch {}
+        mapRef.current = map;
+        basemapRef.current = basemap;
+        lyrRef.current = lyr;
+
+        return () => {
+            map.remove();
+        };
     }, []);
 
     React.useEffect(() => {
@@ -203,12 +205,12 @@ function _Map({
             throw new Error();
         }
 
-        const _onClick = (e: Leaflet.LeafletMouseEvent) => {
+        map.on("click", (e) => {
             onClick(e.latlng.lng, e.latlng.lat);
             onClickaway();
-        };
+        });
 
-        const _onMoveend = () => {
+        map.on("moveend", () => {
             const bounds = map.getBounds();
             const zoom = map.getZoom();
 
@@ -221,29 +223,17 @@ function _Map({
             const tiles = Tile.fromExtent(west, south, east, north, zoom);
 
             onViewChange(extent, tiles);
-        };
+        });
 
-        const _onMousemove = (e: Leaflet.LeafletMouseEvent) => {
+        map.on("mousemove", (e) => {
             onMouseMove(e.latlng.lng, e.latlng.lat);
-        };
+        });
 
-        const _onMouseout = () => {
+        map.on("mouseout", () => {
             onMouseMove(null, null);
-        };
-
-        map.on("click", _onClick);
-        map.on("moveend", _onMoveend);
-        map.on("mousemove", _onMousemove);
-        map.on("mouseout", _onMouseout);
+        });
 
         map.fire("moveend");
-
-        return () => {
-            map.off("click", _onClick);
-            map.off("moveend", _onMoveend);
-            map.off("mousemove", _onMousemove);
-            map.off("mouseout", _onMouseout);
-        };
     }, [onClick, onMouseMove, onViewChange, onClickaway]);
 
     return (
