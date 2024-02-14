@@ -24,6 +24,8 @@ declare type Props = {
         lng: number;
         lat: number;
         color?: string;
+        icon?: string;
+        title?: string;
     }[];
     extent?: Extent;
     onViewChange?: (extent: Extent, tiles: Tile[]) => void;

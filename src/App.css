@@ -1,39 +1,3 @@
 body {
     margin: 0;
 }
-
-.marker-pin {
-    width: 30px;
-    height: 30px;
-    border-radius: 50% 50% 50% 0;
-    position: absolute;
-    transform: rotate(-45deg);
-    left: 50%;
-    top: 50%;
-    margin: -15px 0 0 -15px;
-}
-
-.custom-div-icon {
-    position: absolute;
-    width: 22px;
-    font-size: 22px;
-    left: 0;
-    right: 0;
-    margin: 10px auto;
-    text-align: center;
-}
-
-.marker-img {
-    transform: rotate(+45deg);
-    position: absolute;
-    left: 3px;
-    top: 3px;
-}
-
-.label {
-    position: absolute;
-    font-size: 15px;
-    top: -15px;
-    white-space: nowrap;
-    font-family: "Gill Sans", sans-serif;
-}

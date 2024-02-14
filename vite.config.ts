@@ -12,12 +12,11 @@ export default defineConfig({
             fileName: "react-leaflet",
         },
         rollupOptions: {
-            external: ["react", "leaflet", "uuid"],
+            external: ["react", "leaflet"],
             output: {
                 globals: {
                     react: "React",
                     leaflet: "Leaflet",
-                    uuid: "Uuid",
                 },
                 banner: "import 'leaflet/dist/leaflet.css';",
             },

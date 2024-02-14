@@ -2,7 +2,6 @@ import React from "react";
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Tile from "./Tile";
-import { renderToStaticMarkup } from "react-dom/server";
 import { CSSProperties } from "react";
 
 const WIDTH = 500;
@@ -43,7 +42,7 @@ function pointsToString(pts?: { id: string; lng: number; lat: number }[]) {
 
     return pts
         .sort((a, b) => a.id.localeCompare(b.id))
-        .map((p) => p.id + ":" + ("color" in p ? p.color : "."))
+        .map(p => p.id + ":" + ("color" in p ? p.color : "."))
         .join("-");
 }
 
@@ -53,20 +52,19 @@ function makeHtmlMarker(
     img?: string,
     title?: string
 ) {
-    return renderToStaticMarkup(
+    return `
         <div>
-            <div className="label" style={{ color: color }}>
-                {title || ""}
+            <div style="color:${color};font-size:15px;top:-22px;position:absolute">
+                ${title || ""}
             </div>
-            <div
-                aria-label={label}
-                className="marker-pin"
-                style={{ background: color, border: "1px solid black" }}
-            >
-                <img src={img} className="marker-img" />
+            <div aria-label=${label} style="width:30px;height:30px;border-radius: 50% 50% 50% 0;transform:rotate(-45deg);border: 1px solid black;background:${color}">
+                ${
+                    img &&
+                    `<img src=${img} style="transform:rotate(+45deg);position:absolute;left:3px;top:3px;" />`
+                }
             </div>
         </div>
-    );
+    `;
 }
 
 function diff(a: Iterable<string>, b: Iterable<string>) {
@@ -77,8 +75,8 @@ function diff(a: Iterable<string>, b: Iterable<string>) {
     const __b = new Set(b);
 
     return {
-        toDel: _a.filter((x) => !__b.has(x)),
-        toAdd: _b.filter((x) => !__a.has(x)),
+        toDel: _a.filter(x => !__b.has(x)),
+        toAdd: _b.filter(x => !__a.has(x)),
     };
 }
 
@@ -161,7 +159,7 @@ function _Map({
             throw new Error();
         }
 
-        const newPoints = new Map(points.map((p) => [p.id, p]));
+        const newPoints = new Map(points.map(p => [p.id, p]));
 
         const { toDel, toAdd } = diff(oldPoints.keys(), newPoints.keys());
 
@@ -205,7 +203,7 @@ function _Map({
             throw new Error();
         }
 
-        map.on("click", (e) => {
+        map.on("click", e => {
             onClick(e.latlng.lng, e.latlng.lat);
             onClickaway();
         });
@@ -225,7 +223,7 @@ function _Map({
             onViewChange(extent, tiles);
         });
 
-        map.on("mousemove", (e) => {
+        map.on("mousemove", e => {
             onMouseMove(e.latlng.lng, e.latlng.lat);
         });
 
