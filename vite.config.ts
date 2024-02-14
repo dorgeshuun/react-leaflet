@@ -21,5 +21,6 @@ export default defineConfig({
                 banner: "import 'leaflet/dist/leaflet.css';",
             },
         },
+        outDir: "dist-lib",
     },
 });
