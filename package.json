@@ -5,15 +5,14 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build --config vite.config.ts && vite build --config vite.preview.ts",
+        "build": "tsc && vite build --config vite.config.lib.ts && vite build --config vite.config.site.ts",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite build -c vite.preview.ts && vite preview"
     },
     "dependencies": {
         "leaflet": "^1.9.4",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-syntax-highlighter": "^15.5.0"
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
         "@types/leaflet": "^1.9.8",
@@ -28,7 +27,8 @@
         "eslint-plugin-react-refresh": "^0.4.5",
         "typescript": "^5.2.2",
         "vite": "^5.0.8",
-        "vite-plugin-dts": "^3.7.2"
+        "vite-plugin-dts": "^3.7.2",
+        "react-syntax-highlighter": "^15.5.0"
     },
     "main": "./dist-lib/react-leaflet.umd.cjs",
     "module": "./dist-lib/react-leaflet.js",
