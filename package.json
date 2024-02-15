@@ -30,12 +30,12 @@
         "vite": "^5.0.8",
         "vite-plugin-dts": "^3.7.2"
     },
-    "main": "./dist/react-leaflet.umd.cjs",
-    "module": "./dist/react-leaflet.js",
+    "main": "./dist-lib/react-leaflet.umd.cjs",
+    "module": "./dist-lib/react-leaflet.js",
     "exports": {
         ".": {
-            "import": "./dist/react-leaflet.js",
-            "require": "./dist/react-leaflet.umd.cjs"
+            "import": "./dist-lib/react-leaflet.js",
+            "require": "./dist-lib/react-leaflet.umd.cjs"
         }
     }
 }
